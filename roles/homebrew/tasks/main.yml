@@ -1,0 +1,59 @@
+- name: Update homebrew
+  homebrew:
+    update_homebrew: yes
+
+- name: Tap homebrew
+  homebrew_tap:
+    name: caskroom/cask
+    state: present
+
+- name: Install packages from homebrew
+  homebrew:
+    name: "{{ item.name }}"
+    state: present
+  with_items: "{{ brew_packages }}"
+
+- name: Install cask packages from homebrew
+  homebrew_cask:
+    name: "{{ item.name }}"
+  environment:
+    HOMEBREW_CASK_OPTS: "--appdir=/Applications"
+  ignore_errors: yes
+  with_items: "{{ brew_cask_packages }}"
+
+- name: Uninstall packages from homebrew
+  homebrew:
+    name: "{{ item.name }}"
+    state: absent
+    install_options: ignore-dependencies
+  with_items: "{{ brew_uninstall_packages }}"
+
+# redis
+- name: Start redis service
+  shell: /bin/bash -lc "brew services start redis"
+
+# mysql5.6 を使いたいが、 brew でインストールした場合にインストールパスが変わるため、 PATH に登録しておく
+- name: Set mysql@5.6 path
+  lineinfile: dest=~/.bashrc line="export PATH=\"/usr/local/opt/mysql@5.6/bin:$PATH\""
+
+# rbenv
+- name: Set rbenv init PATH
+  lineinfile: dest=~/.bashrc line="eval \"$(rbenv init -)\""
+
+- name: Reload .bashrc
+  shell: /bin/bash -lc "source ~/.bashrc"
+
+# ndenv
+- name: Set ndenv PATH
+  lineinfile: dest=~/.bashrc line="export PATH=\"$HOME/.ndenv/bin:$PATH\""
+
+- name: Set ndenv init PATH
+  lineinfile: dest=~/.bashrc line="eval \"$(ndenv init -)\""
+
+- name: Reload .bashrc
+  shell: /bin/bash -lc "source ~/.bashrc"
+
+- name: Set node-build
+  git: repo=https://github.com/riywo/node-build.git dest=~/.ndenv/plugins/node-build
+
+

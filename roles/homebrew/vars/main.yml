@@ -1,0 +1,15 @@
+brew_packages:
+  - name: http://git.io/sshpass.rb
+  - name: redis
+  - name: yarn
+  - name: mysql@5.6
+  - name: rbenv
+  - name: ndenv
+
+brew_uninstall_packages:
+  - name: node
+
+brew_cask_packages:
+  - name: virtualbox
+  - name: vagrant
+  - name: docker
