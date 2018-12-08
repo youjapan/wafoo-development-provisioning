@@ -8,7 +8,7 @@
     - hosts
     - workspace
     - vagrant
-    - migration
+    - fixture
     - docker
     - wafoo_web
   environment:

@@ -1,0 +1,8 @@
+- name: Install wafoo_web bundler
+  shell: |
+    /bin/bash -lc "gem install bundler"
+    /bin/bash -lc "bundle install --path vendor/bundle"
+    /bin/bash -lc "bundle exec rake db:setup"
+    /bin/bash -lc "bundle exec rake db:seed RAILS_ENV=test"
+  args:
+    chdir: ../wafoo_web
