@@ -1,0 +1,5 @@
+- name: Add wafoo develop domain to hosts
+  become: yes
+  lineinfile: dest=/etc/hosts line="{{ item }}"
+  with_items:
+    - "{{ develop_hosts }}"
