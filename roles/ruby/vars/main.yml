@@ -1,0 +1,25 @@
+- name: Check installed ruby version
+  shell: /bin/bash -lc "rbenv versions | grep {{ item }}"
+  with_items:
+    - "{{ ruby_versions }}"
+  changed_when: False
+  register: ruby_installed
+  ignore_errors: yes
+
+- name: Install ruby
+  shell: /bin/bash -lc "rbenv install {{ item }}"
+  with_items:
+    - "{{ ruby_versions }}"
+  when: ruby_installed is failed
+  ignore_errors: yes
+
+- name: Set ruby 2.5.1
+  shell: /bin/bash -lc "rbenv local 2.5.1"
+
+- name: Rehash rbenv
+  shell: /bin/bash -lc "rbenv rehash"
+
+- name: Install bundler from gem
+  gem:
+    name: bundler
+    executable: ~/.rbenv/shims/gem
