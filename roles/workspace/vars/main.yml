@@ -1,0 +1,3 @@
+github_repos:
+  - dir: "wafoo_web"
+    repos: "git@github.com:youjapan/wafoo_web.git"
