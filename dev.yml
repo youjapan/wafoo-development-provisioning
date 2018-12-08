@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: False
+  connection: local
+  roles:
+    - homebrew
+    - ruby
+    - pip
+    - hosts
+    - workspace
+    - vagrant
+    - migration
+    - docker
+    - wafoo_web
+  environment:
+    SPECIFIC_MYSQL_HOST: 192.168.0.101
+    SPECIFIC_MYSQL_PORT: 3306
