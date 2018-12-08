@@ -1,0 +1,4 @@
+- name: Install pip module
+  pip:
+    name: "{{ pip_modules }}"
+    executable: pip3
