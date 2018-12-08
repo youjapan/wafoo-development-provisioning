@@ -1,0 +1,15 @@
+- name: vagrant status
+  shell: vagrant status
+  register: vg_st
+
+- debug:
+    var: vg_st.stdout_lines
+
+- name: vagrant provision
+  shell: vagrant provision
+  when: vg_st.stdout.find("The VM is running") != -1
+
+- name: vagrant up
+  shell: vagrant up
+  register: vagrant_status
+  when: vg_st.stdout.find("The VM is running") == -1
