@@ -1,0 +1,37 @@
+- name: bundle install in wafoo_web
+  shell: /bin/bash -lc "bundle install --path vendor/bundle"
+  args:
+    chdir:  ../../../wafoo_web/
+
+- name: Search rails server.pid file
+  shell: /bin/bash -lc "cat ../../../wafoo_web/tmp/pids/server.pid"
+  failed_when: False
+  register: rails_pid
+
+- debug:
+    var: rails_pid.stdout
+
+- name: Search rails server process
+  shell: /bin/bash -lc "ps aux| grep {{ rails_pid.stdout }} | grep -v grep"
+  when: rails_pid.stdout != ""
+  register: ps_command
+
+- debug:
+    var: ps_command
+
+- name: Kill rails server process
+  shell: /bin/bash -lc "kill -9 {{ rails_pid.stdout }}"
+  when: ps_command is not skipped
+
+- name: Remove rails server.pid file
+  file:
+    path=../../../wafoo_web/tmp/pids/server.pid
+    state=absent
+  when: ps_command is not skipped
+
+- name: Run rails server
+  shell: /bin/bash -lc "MYSQL_PORT_3306_TCP_ADDR=192.168.0.101 bundle exec rails server -d"
+  args:
+    chdir: ../../../wafoo_web/
+
+## webpack-dev-serverを追加する
