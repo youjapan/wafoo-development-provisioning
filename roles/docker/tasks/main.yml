@@ -1,0 +1,5 @@
+- name: Boot docker
+  docker_service:
+    build: yes
+    project_src: ../../../
+    state: present

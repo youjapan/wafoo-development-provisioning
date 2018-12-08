@@ -1,1 +1,1 @@
-# wafoo--development-provisioning
+# wafoo-development-provisioning

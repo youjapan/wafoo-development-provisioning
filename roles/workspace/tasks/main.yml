@@ -1,4 +1,4 @@
 - name: Create wafoo workspace
-  git: repo={{item.repos}} dest=../{{item.dir}} #~/.ghq/github.com/youjapan/にある想定
+  git: repo={{item.repos}} dest=../../../{{item.dir}} #~/.ghq/github.com/youjapan/にある想定
   ignore_errors: yes
   with_items: "{{ github_repos }}"
